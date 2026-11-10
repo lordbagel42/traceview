@@ -1,0 +1,19 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "traceview",
+	"compatibility_date": "2026-11-08",
+	"compatibility_flags": ["nodejs_compat"],
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	},
+	"workers_dev": true,
+	"preview_urls": false,
+	"routes": [{ "pattern": "traceview.raygen.dev", "custom_domain": true }],
+	"kv_namespaces": [{ "binding": "TRACES", "id": "1fb14f69d9504edaad58f132e2d2ed30" }],
+	"ratelimits": [
+		{ "name": "SHARE_LIMITER", "namespace_id": "1001", "simple": { "limit": 10, "period": 60 } }
+	],
+	"observability": { "enabled": true, "head_sampling_rate": 0.1 }
+}

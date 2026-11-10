@@ -1,0 +1,98 @@
+{
+	"schemaVersion": 2,
+	"generatedAt": "2026-11-09T00:00:00Z",
+	"title": "Design System: Traceview",
+	"extensions": {
+		"typographyMeta": {
+			"headline": {
+				"displayName": "Empty-state heading",
+				"purpose": "Compact introductory heading, not a marketing display."
+			},
+			"data": {
+				"displayName": "Trace data",
+				"purpose": "Operations, identifiers and tabular measurements."
+			}
+		},
+		"shadows": [],
+		"motion": [
+			{
+				"name": "timeline-feedback",
+				"value": "opacity 0.12s",
+				"purpose": "Strengthen service bars on hover and selection; removed with reduced motion."
+			}
+		],
+		"breakpoints": [
+			{ "name": "compact-desktop-max", "value": "1100px" },
+			{ "name": "stacked-max", "value": "900px" },
+			{ "name": "narrow-max", "value": "600px" }
+		]
+	},
+	"components": [
+		{
+			"name": "Primary button",
+			"kind": "button",
+			"refersTo": "button-primary",
+			"description": "Near-white primary action, as used to choose a file or confirm upload. The file picker overrides height to 34px.",
+			"html": "<button class=\"ds-primary\">Choose file</button>",
+			"css": ".ds-primary{font:500 12px 'Geist Variable',sans-serif;height:32px;padding:0 10px;background:var(--primary,#ededef);color:var(--primary-foreground,#18181b);border:1px solid transparent;border-radius:5px;cursor:pointer}.ds-primary:hover{background:color-mix(in oklab,var(--primary,#ededef) 80%,transparent)}.ds-primary:focus-visible{border-color:#91b4ee;outline:3px solid #91b4ee80}.ds-primary:active{transform:translateY(1px)}.ds-primary:disabled{opacity:.5;pointer-events:none}"
+		},
+		{
+			"name": "Outline button",
+			"kind": "button",
+			"refersTo": "button-outline",
+			"description": "Quiet header Share action; Open file uses the ghost variant.",
+			"html": "<button class=\"ds-outline\">Share</button>",
+			"css": ".ds-outline{font:500 12px 'Geist Variable',sans-serif;height:32px;padding:0 10px;background:var(--background,#111112);color:var(--foreground,#ededef);border:1px solid var(--border,#2a2a2e);border-radius:5px;cursor:pointer}.ds-outline:hover{background:var(--muted,#242427)}.ds-outline:focus-visible{border-color:#91b4ee;outline:3px solid #91b4ee80}.ds-outline:active{transform:translateY(1px)}"
+		},
+		{
+			"name": "Search input",
+			"kind": "input",
+			"refersTo": "input-search",
+			"description": "30px span search, shown without the inset search icon and slash hint wrapper. App CSS suppresses the primitive ring shadow.",
+			"html": "<input class=\"ds-search\" aria-label=\"Search spans\" placeholder=\"Search spans…\">",
+			"css": ".ds-search{font:12px 'Geist Variable',sans-serif;height:30px;padding:0 10px;max-width:100%;background:#171719;color:var(--foreground,#ededef);border:1px solid var(--border,#2a2a2e);border-radius:6px;caret-color:#91b4ee}.ds-search::placeholder{color:var(--muted-foreground,#a1a1aa)}.ds-search:focus-visible{outline:none;border-color:#91b4ee;box-shadow:none}"
+		},
+		{
+			"name": "Trace view tabs",
+			"kind": "custom",
+			"description": "Waterfall and Analysis are actual mutually exclusive tab panels. This isolated sample records their visual states; it does not implement panel switching.",
+			"html": "<div class=\"ds-tabs\" role=\"tablist\" aria-label=\"Trace view\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Waterfall</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\" tabindex=\"-1\">Analysis <span>3</span></button></div>",
+			"css": ".ds-tabs{display:flex;height:42px;padding:0 24px;gap:24px;border-bottom:1px solid var(--border,#2a2a2e)}.ds-tab{font:450 12px 'Geist Variable',sans-serif;height:42px;padding:0;color:var(--muted-foreground,#a1a1aa);background:transparent;border:0;border-bottom:1px solid transparent;border-radius:0;cursor:pointer}.ds-tab[aria-selected=true]{color:var(--foreground,#ededef);border-bottom-color:var(--foreground,#ededef)}.ds-tab span{font:10px 'Geist Mono Variable',monospace;margin-left:5px;color:var(--muted-foreground,#a1a1aa)}.ds-tab:focus-visible{outline:2px solid #91b4ee;outline-offset:3px}"
+		},
+		{
+			"name": "Selected waterfall row",
+			"kind": "custom",
+			"refersTo": "span-selected",
+			"description": "32px tree/time row with selected background and outlined 10px service bar. Layout excerpt; the full table has a 700px minimum width and sticky axis.",
+			"html": "<div class=\"ds-row\"><div class=\"ds-operation\"><button class=\"ds-name\"><i></i>GET /checkout</button><span>140 ms</span></div><button class=\"ds-timeline\" aria-label=\"Inspect GET /checkout, 140 ms\"><span class=\"ds-bar\"></span></button></div>",
+			"css": ".ds-row{display:grid;grid-template-columns:minmax(320px,40%) 1fr;height:32px;background:#222b3b}.ds-operation{display:flex;align-items:center;gap:6px;padding:0 16px 0 36px;border-right:1px solid #242428;min-width:0}.ds-name{display:flex;align-items:center;gap:8px;flex:1;min-width:0;height:100%;border:0;background:none;padding:0;font:11px 'Geist Mono Variable',monospace;color:#d2d2d9;white-space:nowrap;cursor:pointer}.ds-name i{width:6px;height:6px;border-radius:1px;background:#79a9f5;flex-shrink:0}.ds-operation>span{font:10px 'Geist Mono Variable',monospace;color:#a1a1aa;white-space:nowrap}.ds-timeline{position:relative;margin:0 24px 0 12px;padding:0;border:0;background-image:linear-gradient(to right,#232327 1px,transparent 1px);background-size:25% 100%;cursor:pointer}.ds-bar{position:absolute;left:10%;width:65%;top:11px;height:10px;border-radius:2px;background:#79a9f5;outline:1px solid #dce9ff;outline-offset:2px;transition:opacity 120ms}.ds-name:focus-visible,.ds-timeline:focus-visible{outline:2px solid #91b4ee;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-bar{transition:none}}"
+		},
+		{
+			"name": "Service timing table",
+			"kind": "custom",
+			"description": "Flat Analysis table with mono measurements. In the app a service action returns to the filtered waterfall; values here are illustrative.",
+			"html": "<div class=\"ds-table-scroll\"><table class=\"ds-table\"><thead><tr><th>Service</th><th>Spans</th><th>Self time</th><th>Total</th></tr></thead><tbody><tr><th><button><i></i>checkout</button></th><td>8</td><td>140 ms</td><td>420 ms</td></tr></tbody></table></div>",
+			"css": ".ds-table-scroll{overflow:auto}.ds-table{width:100%;border-collapse:collapse;font:11px 'Geist Variable',sans-serif;text-align:right;color:var(--foreground,#ededef)}.ds-table th{font-weight:400;color:var(--muted-foreground,#a1a1aa)}.ds-table thead th{padding:0 0 12px 16px;white-space:nowrap}.ds-table th:first-child{text-align:left;padding-left:0}.ds-table tbody th,.ds-table td{padding:14px 0 14px 16px;border-top:1px solid var(--border,#2a2a2e)}.ds-table td{font-family:'Geist Mono Variable',monospace;font-variant-numeric:tabular-nums;white-space:nowrap}.ds-table button{display:inline-flex;align-items:center;gap:8px;min-height:28px;color:#dedee4;background:none;border:0;padding:0;font:inherit;cursor:pointer}.ds-table i{width:6px;height:6px;border-radius:1px;background:#79a9f5}.ds-table button:hover{color:#b4cefa}.ds-table button:focus-visible{outline:2px solid #91b4ee;outline-offset:3px}"
+		}
+	],
+	"narrative": {
+		"northStar": "The Quiet File Inspector",
+		"overview": "A neutral developer file inspector: compact chrome, subtle hairlines, precise measurements, and minimal copy. The trace is the workspace, not content inside a dashboard shell.\n\nExtracted from `src/lib/TraceViewer.svelte`, `src/routes/layout.css`, and the shipped button, input, tabs, and dialog primitives. Source takes precedence over older design descriptions and screenshots.",
+		"keyCharacteristics": [
+			"Full-width, tree-aligned waterfall until a span is selected.",
+			"Quiet neutral chrome with color for identity and state.",
+			"Geist interface text paired with Geist Mono measurements."
+		],
+		"rules": [],
+		"dos": [
+			"Do preserve tree/time alignment and tabular measurements.",
+			"Do keep neutral surfaces quiet and use color for identity or state.",
+			"Do keep view switching explicit and preserve intentional table scrolling on narrow screens."
+		],
+		"donts": [
+			"Don't reintroduce dashboard scaffolding, onboarding steps, oversized cards, or explanatory filler.",
+			"Don't use service color alone to communicate error status.",
+			"Don't hide evidence behind decorative effects or imply unsupported root-cause certainty."
+		]
+	}
+}
