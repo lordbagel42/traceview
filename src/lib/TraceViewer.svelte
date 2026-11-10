@@ -35,6 +35,7 @@
 		type Span
 	} from '#lib/trace.js';
 	import { MAX_FILE_BYTES } from '#lib/limits.js';
+	import BugReport from '#lib/BugReport.svelte';
 
 	let { shareId }: { shareId?: string } = $props();
 	let trace = $state<Trace | null>(null);
@@ -317,6 +318,7 @@
 			>
 			{#if trace}<span class="header-filename" title={filename}>{filename}</span>{/if}
 			<div class="header-actions">
+				<BugReport />
 				{#if trace}<Button variant="ghost" onclick={() => input.click()} disabled={busy}
 						>Open file</Button
 					><Button

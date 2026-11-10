@@ -5,6 +5,8 @@ import { z } from 'zod';
 import type { RequestHandler } from './$types';
 import { MAX_FILE_BYTES, MAX_SHARE_SECONDS } from '#lib/limits.js';
 import { limitSharing, saveTrace } from '#lib/server/shares.js';
+import { bugReportSchema, submitBug } from '#lib/server/bugs.js';
+import { env } from 'cloudflare:workers';
 
 export const POST: RequestHandler = async ({ request, url }) => {
 	const origin = request.headers.get('origin');
@@ -65,6 +67,47 @@ export const POST: RequestHandler = async ({ request, url }) => {
 						{
 							type: 'text',
 							text: isHttpError(e) ? e.body.message : 'Unable to create a trace link. Try again.'
+						}
+					]
+				};
+			}
+		}
+	);
+	server.registerTool(
+		'report_bug',
+		{
+			title: 'Report a Traceview bug',
+			description:
+				'Send a text-only bug report to Traceview’s triage agent. No authentication required. Do not include secrets or trace contents. Ask for the current Amp thread URL when using Amp, set reporterClient to amp, and include ampThreadUrl so a verified fix can be reported back. Generate reportId once and reuse it on retries. Queueing is not confirmation that a bug exists or has been fixed.',
+			inputSchema: bugReportSchema,
+			outputSchema: { id: z.string().regex(/^tv_bug_[a-z0-9]{24}$/), status: z.literal('queued') },
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: false,
+				idempotentHint: true,
+				openWorldHint: true
+			}
+		},
+		async (input) => {
+			try {
+				const allowed = await env.BUG_LIMITER.limit({
+					key: request.headers.get('cf-connecting-ip') ?? 'local'
+				});
+				if (!allowed.success) error(429, 'Too many reports. Please try again in a minute.');
+				const result = await submitBug(input);
+				return {
+					content: [{ type: 'text', text: JSON.stringify(result) }],
+					structuredContent: result
+				};
+			} catch (e) {
+				return {
+					isError: true,
+					content: [
+						{
+							type: 'text',
+							text: isHttpError(e)
+								? e.body.message
+								: 'Unable to queue the report. Retry with the same report ID.'
 						}
 					]
 				};

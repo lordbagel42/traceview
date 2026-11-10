@@ -13,7 +13,8 @@
 	"routes": [{ "pattern": "traceview.raygen.dev", "custom_domain": true }],
 	"kv_namespaces": [{ "binding": "TRACES", "id": "1fb14f69d9504edaad58f132e2d2ed30" }],
 	"ratelimits": [
-		{ "name": "SHARE_LIMITER", "namespace_id": "1001", "simple": { "limit": 10, "period": 60 } }
+		{ "name": "SHARE_LIMITER", "namespace_id": "1001", "simple": { "limit": 10, "period": 60 } },
+		{ "name": "BUG_LIMITER", "namespace_id": "1002", "simple": { "limit": 5, "period": 60 } }
 	],
 	"observability": { "enabled": true, "head_sampling_rate": 0.1 }
 }
